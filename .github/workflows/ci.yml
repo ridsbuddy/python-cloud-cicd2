@@ -33,3 +33,13 @@ jobs:
 
       - name: Run tests
         run: pytest
+
+
+      - name: Deploy to EC2
+        run: |
+          aws ssm send-command \
+            --instance-ids "i-003784fe97743e842" \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=["docker pull ghcr.io/ridsbuddy/python-cloud-cicd:latest"]' \
+            --region eu-north-1
+            
