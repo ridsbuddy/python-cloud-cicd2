@@ -18,7 +18,7 @@ def get_db_connection():
 
 @app.route("/")
 def home():
-    return {"message": "Hello DevOps"}
+    return {"message": "Hello DevOps - my automatic cicd"}
 
 
 @app.route("/db")
