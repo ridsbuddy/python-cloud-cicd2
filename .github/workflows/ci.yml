@@ -12,6 +12,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      packages: write
 
     steps:
       - name: Checkout code
@@ -34,6 +35,20 @@ jobs:
       - name: Run tests
         run: pytest
 
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/ridsbuddy/python-cloud-cicd:latest .   
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/ridsbuddy/python-cloud-cicd:latest    
 
       - name: Deploy to EC2
         run: |
